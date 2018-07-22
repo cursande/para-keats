@@ -1,14 +1,6 @@
 # para-keats
 
-A Clojure library designed to ... well, that part is up to you.
+This library will take a random stanza from a Keats poem and then replace the last word of each line with a rhyming word (or near-rhyme if necessary) found via the datamuse API.
 
-## Usage
+Originally inspired by Carin's Meier's Twitter bot described [here](http://howistart.org/posts/clojure/1/index.html). 
 
-FIXME
-
-## License
-
-Copyright © 2018 FIXME
-
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.

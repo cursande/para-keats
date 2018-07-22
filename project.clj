@@ -1,5 +1,5 @@
 (defproject para-keats "0.1.0-SNAPSHOT"
-  :description "John Keats mashup (http://howistart.org/posts/clojure/1/index.html)"
+  :description "John Keats mashup - adapted from http://howistart.org/posts/clojure/1/index.html"
   :url "https://github.com/cursande/para-keats"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
