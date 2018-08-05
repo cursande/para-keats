@@ -1,5 +1,7 @@
 (ns para-keats.generator)
 
+(require '[clojure.string :as str])
+
 (defn word-chain [word-transitions]
   (reduce (fn [p s]
             (merge-with clojure.set/union p
@@ -9,8 +11,8 @@
           word-transitions))
 
 (defn text->word-swap [s]
-  (let [lines (into [] (remove (fn [s] (= s "")) (clojure.string/split s #"[;|,|\n]")))
-        last-words (map (fn [s] (last (clojure.string/split s #" "))) lines)]
+  (let [lines (into [] (remove (fn [s] (= s "")) (str/split s #"[;|,|\n]")))
+        last-words (map (fn [s] (last (str/split s #" "))) lines)]
     last-words))
 
 (def test-string
