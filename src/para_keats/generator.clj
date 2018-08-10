@@ -18,14 +18,3 @@
                word
                (:word (rand-nth res)))))
          last-words)))
-
-
-(def test-string
-  "Season of mists and mellow fruitfulness,
-  Close bosom-friend of the maturing sun;
-  Conspiring with him how to load and bless
-  With fruit the vines that round the thatch-eves run;")
-
-(fetch-rhymes (text->word-swap test-string))
-
-(text->word-swap test-string)
