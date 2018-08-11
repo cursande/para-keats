@@ -1,10 +1,17 @@
 (ns para-keats.generator
   (:require [clj-http.client :as client]
-            [clojure.string :refer [split]]
+            [clojure.string :refer [split replace blank?]]
             [cheshire.core :refer [parse-string]]))
 
+; TODO Set up regex search for word + ;|,|\n, rather than just searching for the word on its own
+(defn word-swap [text]
+  (let [last-words (text->last-words text)
+        with-rhymes (map (fn [a, b] [a, b])
+                         last-words (fetch-rhymes last-words))]
+    (reduce (fn [s, r] (apply replace s r)) text with-rhymes)))
+
 (defn text->last-words [s]
-  (let [lines (into [] (remove (fn [s] (= s "")) (split s #"[;|,|\n]")))]
+  (let [lines (into [] (remove (fn [s] (blank? s)) (split s #"[;|,|\n]")))]
     (map (fn [s] (last (split s #" ")))
          lines)))
 
