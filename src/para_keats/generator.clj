@@ -3,8 +3,7 @@
             [clojure.string :refer [split]]
             [cheshire.core :refer [parse-string]]))
 
-
-(defn text->word-swap [s]
+(defn text->last-words [s]
   (let [lines (into [] (remove (fn [s] (= s "")) (split s #"[;|,|\n]")))]
     (map (fn [s] (last (split s #" ")))
          lines)))
