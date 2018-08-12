@@ -1,7 +1,6 @@
 (ns para-keats.generator
   (:require [clj-http.client :as client]
-            [clojure.string :refer [split replace blank?]]
-            [cheshire.core :refer [parse-string]]))
+            [clojure.string :refer [split replace blank?]]))
 
 (defn text->last-words [s]
   (let [lines (into [] (remove (fn [s] (blank? s)) (split s #"[;|,|\n]")))]
