@@ -15,21 +15,18 @@
 (deftest test-fetch-rhymes
   (testing "it makes a request to the Datamuse API with each word, returning a sequence with a
 rhyming word for each or the original word if nothing was returned in the response"
-    (let [test-words (lazy-seq ["dry" "low"])]
+    (let [test-words (lazy-seq ["dry" "low" "cromulent"])]
       (with-fake-routes {
                          "https://api.datamuse.com/words?rel_rhy=dry"
                          {:get (fn [req]
-                                 {:status 200
-                                  :headers {}
-                                  :body (slurp "test/fixtures/datamuse_get_1")})}
+                                 {:status 200 :body (slurp "test/fixtures/datamuse_get_1")})}
                          "https://api.datamuse.com/words?rel_rhy=low"
                          {:get (fn [req]
-                                 {:status 200
-                                  :headers {}
-                                  :body (slurp "test/fixtures/datamuse_get_2")})}
+                                 {:status 200 :body (slurp "test/fixtures/datamuse_get_2")})}
+                         "https://api.datamuse.com/words?rel_rhy=cromulent"
+                         {:get (fn [req]
+                                 {:status 200 :body "[]"})}
                          }
-        (is (or (lazy-seq ["lie" "go"])
-                (lazy-seq ["buy" "go"])
-                (lazy-seq ["lie" "blow"])
-                (lazy-seq ["buy" "blow"]))
+        (is (or (lazy-seq ["lie" "go" "cromulent"])
+                (lazy-seq ["buy" "go" "cromulent"]))
             (fetch-rhymes test-words))))))
