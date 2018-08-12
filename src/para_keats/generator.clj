@@ -22,5 +22,7 @@
   (let [last-words (text->last-words text)
         with-rhymes (map (fn [a, b] [a, b])
                          last-words (fetch-rhymes last-words))]
-    (reduce (fn [s, r] (apply replace s r)) text with-rhymes)))
-
+    (reduce (fn [s, r] (if (= (first r) (last r))
+                         s
+                         (apply replace s r)))
+            text with-rhymes)))
