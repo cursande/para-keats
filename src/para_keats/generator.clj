@@ -3,7 +3,8 @@
             [clojure.string :refer [split replace blank?]]))
 
 (defn text->last-words [s]
-  (let [lines (into [] (remove (fn [s] (blank? s)) (split s #"[;|,|\n]")))]
+  (let [lines (into [] (remove (fn [s] (blank? s))
+                               (split s #"[;|,|\n]")))]
     (map (fn [s] (last (split s #" ")))
          lines)))
 
@@ -21,8 +22,10 @@
 (defn word-swap [text]
   (let [last-words (text->last-words text)
         with-rhymes (map (fn [a, b] [a, b])
-                         last-words (fetch-rhymes last-words))]
+                         last-words
+                         (fetch-rhymes last-words))]
     (reduce (fn [s, r] (if (= (first r) (last r))
                          s
                          (apply replace s r)))
-            text with-rhymes)))
+            text
+            with-rhymes)))
