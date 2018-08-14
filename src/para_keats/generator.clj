@@ -18,13 +18,12 @@
                (:word (rand-nth res)))))
          last-words)))
 
-; TODO Set up regex search for word + ;|,|\n, rather than just searching for the word on its own
 (defn word-swap [text]
   (let [last-words (text->last-words text)
-        with-rhymes (map (fn [a, b] [a, b])
+        with-rhymes (map (fn [a, b] [(re-pattern (str a #"[;|,|\n]")), b])
                          last-words
                          (fetch-rhymes last-words))]
-    (reduce (fn [s, r] (if (= (first r) (last r))
+    (reduce (fn [s, r] (if (some? (re-find (first r) (last r)))
                          s
                          (apply replace-first s r)))
             text
