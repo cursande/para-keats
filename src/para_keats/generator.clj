@@ -1,6 +1,6 @@
 (ns para-keats.generator
   (:require [clj-http.client :as client]
-            [clojure.string :refer [split replace blank?]]))
+            [clojure.string :refer [split replace-first blank?]]))
 
 (defn text->last-words [s]
   (let [lines (into [] (remove (fn [s] (blank? s))
@@ -26,6 +26,6 @@
                          (fetch-rhymes last-words))]
     (reduce (fn [s, r] (if (= (first r) (last r))
                          s
-                         (apply replace s r)))
+                         (apply replace-first s r)))
             text
             with-rhymes)))
