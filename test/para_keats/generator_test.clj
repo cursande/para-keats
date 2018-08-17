@@ -3,6 +3,14 @@
             [para-keats.generator :refer :all]
             [clj-http.fake :refer :all]))
 
+(deftest test-match-last-word
+  (testing
+      "it takes a string and returns the final word on the line, with or without punctuation following it"
+    (let [test-string-1 "Young buds sleep in the root's white core."
+          test-string-2 "That blue Topshop top you've got on is nice"]
+      (is (= ["core" "nice"]
+          [(match-last-word test-string-1) (match-last-word test-string-2)])))))
+
 (deftest test-text->last-words
   (testing
       "it takes a string, splits it into lines and returns a sequence of the final words"
@@ -34,8 +42,16 @@ rhyming word for each or the original word if nothing was returned in the respon
                 (lazy-seq ["buy" "go" "cromulent"]))
             (fetch-rhymes test-words))))))
 
+(deftest test-gen-word-regex
+  (testing
+      "it takes a word and constructs a regex pattern with it for matching the last word in a line"
+    (let [test-word "boat"]
+      (is (= (last (re-find (gen-word-regex test-word) "Just a man in a boat."))
+             "boat")))))
+
 (deftest test-word-swap
-  (testing "it pulls out the last word of each line in a string and replaces it with a rhyming word (or words) found via API"
+  (testing
+      "it pulls out the last word of each line in a string and replaces it with a rhyming word (or words) found via API"
     (let [test-string
           "And I was green, greener than the hill
           Where the flowers grew and the sun shone still
@@ -55,8 +71,9 @@ rhyming word for each or the original word if nothing was returned in the respon
                          {:get (fn [req]
                                  {:status 200 :body (slurp "test/fixtures/datamuse_be")})}
                          }
-        (is (= ("And I was green, greener than the dollar bill
+        (is
+         (= "And I was green, greener than the dollar bill
           Where the flowers grew and the sun shone ill
           Now I'm darker than the deepest emcee
-          Just hand me down, give me a place to partee.")
-               (word-swap test-string)))))))
+          Just hand me down, give me a place to partee."
+            (word-swap test-string)))))))
