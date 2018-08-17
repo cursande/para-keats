@@ -1,6 +1,7 @@
 (ns para-keats.generator-test
   (:require [clojure.test :refer :all]
             [para-keats.generator :refer :all]
+            [clojure.string :refer [replace-first]]
             [clj-http.fake :refer :all]))
 
 (deftest test-match-last-word
@@ -46,8 +47,8 @@ rhyming word for each or the original word if nothing was returned in the respon
   (testing
       "it takes a word and constructs a regex pattern with it for matching the last word in a line"
     (let [test-word "boat"]
-      (is (= (last (re-find (gen-word-regex test-word) "Just a man in a boat."))
-             "boat")))))
+      (is (= (replace-first "Just a man in a boat." (gen-word-regex test-word) "can")
+             "Just a man in a can.")))))
 
 (deftest test-word-swap
   (testing

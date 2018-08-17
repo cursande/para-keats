@@ -1,5 +1,6 @@
 (ns para-keats.generator
   (:require [clj-http.client :as client]
+            [cheshire.core :refer [parse-string]]
             [clojure.string :refer [split split-lines replace-first blank?]]))
 
 (defn match-last-word [line]
@@ -24,8 +25,9 @@
                (:word (rand-nth res)))))
          last-words)))
 
+; get this to match on the /W and/or \n but not replace that too!
 (defn gen-word-regex [word]
-  (re-pattern (str "(" word ")$|(" word ")\\W$")))
+  (re-pattern (str "(" word ")|(" word ")\\W")))
 
 (defn word-swap [text]
   (let [last-words (text->last-words text)
