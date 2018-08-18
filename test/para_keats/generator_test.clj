@@ -46,9 +46,11 @@ rhyming word for each or the original word if nothing was returned in the respon
 (deftest test-gen-word-regex
   (testing
       "it takes a word and constructs a regex pattern with it for matching the last word in a line"
-    (let [test-word "boat"]
-      (is (= (replace-first "Just a man in a boat." (gen-word-regex test-word) "can")
-             "Just a man in a can.")))))
+    (let [test-word "bat"
+          test-string
+          "I wish I had a bat in a hat with a bat,\n And a six four Impala"]
+      (is (= (replace-first test-string (gen-word-regex test-word) "rat$1$2")
+             "I wish I had a bat in a hat with a rat,\n And a six four Impala")))))
 
 (deftest test-word-swap
   (testing

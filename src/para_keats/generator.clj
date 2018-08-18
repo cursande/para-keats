@@ -3,6 +3,7 @@
             [cheshire.core :refer [parse-string]]
             [clojure.string :refer [split split-lines replace-first blank?]]))
 
+; TODO: should a way to specifically refer to the captured groups with $ than having this conditional
 (defn match-last-word [line]
   (let [match (re-find #"(\w+)$|(\w+)\W$" line)]
     (if (nil? (nth match 2))
@@ -25,17 +26,14 @@
                (:word (rand-nth res)))))
          last-words)))
 
-; get this to match on the /W and/or \n but not replace that too!
 (defn gen-word-regex [word]
-  (re-pattern (str "(" word ")|(" word ")\\W")))
+  (re-pattern (str word "(\\n)|" word "(\\W\\n)")))
 
 (defn word-swap [text]
   (let [last-words (text->last-words text)
-        search-replace-pairs (map (fn [a, b] [(gen-word-regex a), b])
+        match-replace-pairs (map (fn [a, b] [(gen-word-regex a),(str b "$1$2")])
                                   last-words
                                   (fetch-rhymes last-words))]
-    (reduce (fn [s, r] (if (some? (re-find (first r) (last r)))
-                         s
-                         (apply replace-first s r)))
+    (reduce (fn [s, m-r] (apply replace-first s m-r))
             text
-            search-replace-pairs)))
+            match-replace-pairs)))
