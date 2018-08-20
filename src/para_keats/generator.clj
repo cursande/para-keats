@@ -1,7 +1,7 @@
 (ns para-keats.generator
   (:require [clj-http.client :as client]
             [cheshire.core :refer [parse-string]]
-            [clojure.string :refer [split split-lines replace-first blank?]]))
+            [clojure.string :refer [split-lines replace-first blank?]]))
 
 ; TODO: should a way to specifically refer to the captured groups with $ than having this conditional
 (defn match-last-word [line]
