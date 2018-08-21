@@ -3,7 +3,6 @@
             [cheshire.core :refer [parse-string]]
             [clojure.string :refer [split-lines replace-first blank?]]))
 
-; TODO: should a way to specifically refer to the captured groups with $ than having this conditional
 (defn match-last-word [line]
   (let [match (re-find #"(\w+)$|(\w+)\W$" line)]
     (if (nil? (nth match 2))
@@ -37,3 +36,8 @@
     (reduce (fn [s, m-r] (apply replace-first s m-r))
             text
             match-replace-pairs)))
+
+(defn -main [arg]
+  (let [new-text (word-swap (slurp arg))]
+    (print new-text)
+    (spit "resources/output/result" new-text :append true)))

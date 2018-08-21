@@ -8,4 +8,5 @@
                  [cheshire "5.8.0"]
                  [clj-http-fake "1.0.3"]]
   :profiles {:dev
-             {:plugins [[com.jakemccrary/lein-test-refresh "0.7.0"]]}})
+             {:plugins [[com.jakemccrary/lein-test-refresh "0.7.0"]]}}
+  :main para-keats.generator)
