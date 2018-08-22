@@ -24,13 +24,13 @@
          last-words)))
 
 (defn gen-word-regex [word]
-  (re-pattern (str word "(\\n)|" word "(\\W\\n)")))
+  (re-pattern (str word "(\\W+\\n|\\W+$)|" word "(\\n|$)")))
 
 (defn word-swap [text]
   (let [last-words (text->last-words text)
         match-replace-pairs (map (fn [a, b] [(gen-word-regex a),(str b "$1$2")])
-                                  last-words
-                                  (fetch-rhymes last-words))]
+                                 last-words
+                                 (fetch-rhymes last-words))]
     (reduce (fn [s, m-r] (apply replace-first s m-r))
             text
             match-replace-pairs)))

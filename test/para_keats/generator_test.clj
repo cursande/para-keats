@@ -10,7 +10,7 @@
     (let [test-string-1 "Young buds sleep in the root's white core."
           test-string-2 "That blue Topshop top you've got on is nice"]
       (is (= ["core" "nice"]
-          [(match-last-word test-string-1) (match-last-word test-string-2)])))))
+             [(match-last-word test-string-1) (match-last-word test-string-2)])))))
 
 (deftest test-text->last-words
   (testing
@@ -49,8 +49,8 @@ rhyming word for each or the original word if nothing was returned in the respon
     (let [test-word "bat"
           test-string
           "I wish I had a bat in a hat with a bat,\n And a six four Impala"]
-      (is (= (replace-first test-string (gen-word-regex test-word) "rat$1$2")
-             "I wish I had a bat in a hat with a rat,\n And a six four Impala")))))
+      (is (= "I wish I had a bat in a hat with a rat,\n And a six four Impala"
+             (replace-first test-string (gen-word-regex test-word) "rat$1$2"))))))
 
 (deftest test-word-swap
   (testing
