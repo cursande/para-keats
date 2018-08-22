@@ -4,10 +4,8 @@
             [clojure.string :refer [split-lines replace-first blank?]]))
 
 (defn match-last-word [line]
-  (let [match (re-find #"(\w+)$|(\w+)\W$" line)]
-    (if (nil? (nth match 2))
-      (nth match 1)
-      (nth match 2))))
+  (let [match (re-find #"(\w+)(?:\W+$|$)" line)]
+    (last match)))
 
 (defn text->last-words [text]
   (let [lines (into [] (remove (fn [s] (blank? s))
