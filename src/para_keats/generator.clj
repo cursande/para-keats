@@ -1,7 +1,8 @@
 (ns para-keats.generator
   (:require [clj-http.client :as client]
             [cheshire.core :refer [parse-string]]
-            [clojure.string :refer [split-lines replace-first blank?]]))
+            [clojure.string :refer [split-lines replace-first blank?]]
+            [com.lemonodor.pronouncing :refer [phones-for-word syllable-count]]))
 
 (defn match-last-word [line]
   (let [match (re-find #"(\w+)(?:\W+$|$)" line)]
@@ -13,6 +14,17 @@
     (map (fn [s] (match-last-word s))
          lines)))
 
+(defn filter-by-syllables [word res]
+  (let [syllables (->> word
+                       (phones-for-word)
+                       (map syllable-count)
+                       last)
+        filtered-words (filter (fn [w] (= (:numSyllables w) syllables))
+                               res)]
+    (if (seq filtered-words)
+      (:word (rand-nth filtered-words))
+      (:word (rand-nth res)))))
+
 (defn fetch-rhymes [last-words]
   (let [base-url "https://api.datamuse.com/words?rel_rhy="]
     (map (fn [word]
@@ -20,7 +32,7 @@
              (:body (client/get (str base-url word) {:as :json}))
              (if (empty? res)
                word
-               (:word (rand-nth res)))))
+               (filter-by-syllables word res))))
          last-words)))
 
 (defn gen-word-regex [word]

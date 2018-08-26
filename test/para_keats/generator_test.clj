@@ -2,6 +2,7 @@
   (:require [clojure.test :refer :all]
             [para-keats.generator :refer :all]
             [clojure.string :refer [replace-first]]
+            [cheshire.core :refer [parse-string]]
             [clj-http.fake :refer :all]))
 
 (deftest test-match-last-word
@@ -22,6 +23,15 @@
           With fruit the vines that round the thatch-eves run;"]
       (is (= (lazy-seq ["fruitfulness" "sun" "bless" "run"])
              (text->last-words test-string))))))
+
+(deftest test-filter-by-syllables
+  (testing
+      "it randomly selects a word in the response that has the same number of syllables
+(any random word if none share the same syllable number)"
+    (let [test-word "lie"
+          test-res (parse-string (slurp "test/fixtures/datamuse_dry") true)]
+      (is (or "lie" "buy")
+          (filter-by-syllables test-word test-res)))))
 
 (deftest test-fetch-rhymes
   (testing

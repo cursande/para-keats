@@ -6,7 +6,8 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [clj-http "3.9.1"]
                  [cheshire "5.8.0"]
-                 [clj-http-fake "1.0.3"]]
+                 [clj-http-fake "1.0.3"]
+                 [com.lemonodor/pronouncing "0.0.5"]]
   :profiles {:dev
              {:plugins [[com.jakemccrary/lein-test-refresh "0.7.0"]]}}
   :main para-keats.generator)
