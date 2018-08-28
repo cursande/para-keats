@@ -5,7 +5,7 @@
             [com.lemonodor.pronouncing :refer [phones-for-word syllable-count]]))
 
 (defn match-last-word [line]
-  (let [match (re-find #"(\w+)(?:\W+$|$)" line)]
+  (let [match (re-find #"(\w+)(?:\W+$|\W+\n|\n|$)" line)]
     (last match)))
 
 (defn text->last-words [text]
