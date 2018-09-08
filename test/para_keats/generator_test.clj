@@ -28,7 +28,7 @@
   (testing
       "it randomly selects a word in the response that has the same number of syllables
 (any random word if none share the same syllable number)"
-    (let [test-word "lie"
+    (let [test-word "fly"
           test-res (parse-string (slurp "test/fixtures/datamuse_dry") true)]
       (is (or "lie" "buy")
           (filter-by-syllables test-word test-res)))))

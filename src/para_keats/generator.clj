@@ -27,7 +27,7 @@
 
 (defn fetch-rhymes [last-words]
   (let [base-url "https://api.datamuse.com/words?rel_rhy="]
-    (map (fn [word]
+    (pmap (fn [word]
            (as-> [word] res
              (:body (client/get (str base-url word) {:as :json}))
              (if (empty? res)
@@ -50,4 +50,5 @@
 (defn -main [arg]
   (let [new-text (word-swap (slurp arg))]
     (print new-text)
-    (spit "resources/output/result" new-text :append true)))
+    (spit "resources/output/result" new-text :append true)
+    (shutdown-agents)))
